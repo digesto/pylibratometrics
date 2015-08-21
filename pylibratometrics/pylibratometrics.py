@@ -53,7 +53,11 @@ url  = "https://metrics-api.librato.com/v1/metrics"
 
 def main():
     hostname        = gethostname()
-    processes       = len(psutil.get_pid_list())
+    try:
+      processes       = len(psutil.get_pid_list())
+    except Exception, e:
+      processes       = len(psutil.pids())
+
     cpu_combined    = psutil.cpu_percent(interval = 0.3)
     # cpu_list        = psutil.cpu_percent(interval = 0.3, percpu = True)
     phymem          = psutil.virtual_memory()
@@ -63,13 +67,18 @@ def main():
     swapmem_total   = swapmem[0]
     swapmem_used    = swapmem[3]
 
-    net_start    = psutil.network_io_counters()
-    time.sleep(1)
-    net_stop     = psutil.network_io_counters()
-
     disk_start    = psutil.disk_io_counters()
     time.sleep(1)
     disk_stop     = psutil.disk_io_counters()
+
+    try:
+      net_start    = psutil.network_io_counters()
+      time.sleep(1)
+      net_stop     = psutil.network_io_counters()
+    except Exception, e:
+      net_start    = psutil.net_io_counters()
+      time.sleep(1)
+      net_stop     = psutil.net_io_counters()
 
     payload = {"source"           : hostname,
                "measure_time"     : int(time.time()),

@@ -6,6 +6,7 @@ Simple script to send psutil (host network/cpu/disk) stats into Librato.
 Install
 -------
 
+	sudo apt-get install python-pip python-dev -y
 	sudo pip install pylibratometrics
 
 Setup 

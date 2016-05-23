@@ -2,14 +2,14 @@ from distutils.core import setup
 
 setup(
     name='pylibratometrics',
-    version='0.3',
+    version='0.4',
     packages=['pylibratometrics',],
     license='MIT License',
     long_description=open('README.md').read(),
     author = "Ricardo Niederberger Cabral",
     author_email = "ricardo@isnotworking.com",
     description = "Simple script to send psutil (host network/cpu/disk) stats into Librato",
-    download_url = 'https://github.com/digesto/pylibratometrics/tarball/0.3',
+    download_url = 'https://github.com/digesto/pylibratometrics/tarball/0.4',
     keywords = "librato metrics",
     url = "https://github.com/digesto/pylibratometrics",
     install_requires = ["requests", "psutil"],

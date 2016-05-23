@@ -52,6 +52,15 @@ except:
 url  = "https://metrics-api.librato.com/v1/metrics"
 
 def main():
+    import optparse
+
+    parser = optparse.OptionParser()
+
+    parser.add_option('-m', '--metrics',
+        action="store", dest="metrics",
+        help="metrics to report. 'm' for minimal and 'a' for all", default="m")
+
+    options, args = parser.parse_args()
     hostname        = gethostname()
     try:
       processes       = len(psutil.get_pid_list())
@@ -99,6 +108,12 @@ def main():
                "gauges[7][name]"  : "Disk_Writes",
                "gauges[7][value]" : disk_stop[1] - disk_start[1],
                }
+
+    if options.metrics == 'm':
+      for name in ["Number_of_Processes", "Physical_Memory", "Network_In", "Disk_Reads", "Disk_Writes","Swap_Memory",]:
+        for k in list(payload.keys()):
+          if 'name' in k and payload[k] == name:
+            del payload[k]
 
     gauge_count = (len(payload) - 2) / 2
 
